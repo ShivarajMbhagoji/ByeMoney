@@ -1,6 +1,5 @@
-package com.shivarajmb.byemoney.Pages
+package com.shivarajmb.byemoney.pages
 
-import android.app.DatePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -33,9 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.shivarajmb.byemoney.Components.TableRow
-import com.shivarajmb.byemoney.Components.UnstyledTextField
-import com.shivarajmb.byemoney.Models.Recurrance
+import com.shivarajmb.byemoney.components.TableRow
+import com.shivarajmb.byemoney.components.UnstyledTextField
+import com.shivarajmb.byemoney.models.Recurrance
 import com.shivarajmb.byemoney.ViewModels.AddScreenViewModel
 import com.shivarajmb.byemoney.ui.theme.BackgroundElevated
 import com.shivarajmb.byemoney.ui.theme.ByeMoneyTheme
