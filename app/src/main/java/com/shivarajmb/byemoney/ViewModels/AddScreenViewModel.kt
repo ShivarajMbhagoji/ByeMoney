@@ -1,7 +1,7 @@
 package com.shivarajmb.byemoney.ViewModels
 
 import androidx.lifecycle.ViewModel
-import com.shivarajmb.byemoney.Models.Recurrance
+import com.shivarajmb.byemoney.models.Recurrance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
