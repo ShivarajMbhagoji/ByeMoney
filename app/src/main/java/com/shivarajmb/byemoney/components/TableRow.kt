@@ -1,6 +1,5 @@
-package com.shivarajmb.byemoney.Components
+package com.shivarajmb.byemoney.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -19,7 +18,7 @@ import com.shivarajmb.byemoney.ui.theme.TextPrimary
 import com.shivarajmb.byemoney.ui.theme.Typography
 
 @Composable
-fun TableRow(label: String,modifier: Modifier=Modifier,hasArrow: Boolean = false, isDestructive: Boolean = false,content: (@Composable RowScope.() -> Unit)? = null) {
+fun TableRow(label: String?=null,modifier: Modifier=Modifier,hasArrow: Boolean = false, isDestructive: Boolean = false,content: (@Composable RowScope.() -> Unit)? = null) {
     val textColor = if (isDestructive) Destructive else TextPrimary
 
 
@@ -27,7 +26,14 @@ fun TableRow(label: String,modifier: Modifier=Modifier,hasArrow: Boolean = false
     Row(modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,) {
-        Text(text = label, style = Typography.bodyMedium, color = textColor, modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp))
+        if(label!=null){
+            Text(
+                text = label,
+                style = Typography.bodyMedium,
+                color = textColor,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
+            )
+        }
         if (hasArrow) {
             Icon(
                 painterResource(id = R.drawable.chevron_right),

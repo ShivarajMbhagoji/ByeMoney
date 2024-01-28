@@ -1,4 +1,4 @@
-package com.shivarajmb.byemoney.Models
+package com.shivarajmb.byemoney.models
 
 import androidx.compose.ui.graphics.Color
 

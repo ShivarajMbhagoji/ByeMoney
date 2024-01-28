@@ -1,6 +1,5 @@
-package com.shivarajmb.byemoney.Pages
+package com.shivarajmb.byemoney.pages
 
-import android.widget.TableRow
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -21,7 +19,7 @@ import androidx.navigation.NavController
 import com.shivarajmb.byemoney.ui.theme.BackgroundElevated
 import com.shivarajmb.byemoney.ui.theme.TopAppBarBackground
 import com.shivarajmb.byemoney.ui.theme.Shapes
-import com.shivarajmb.byemoney.Components.TableRow
+import com.shivarajmb.byemoney.components.TableRow
 import com.shivarajmb.byemoney.ui.theme.DividerColour
 
 @OptIn(ExperimentalMaterial3Api::class)

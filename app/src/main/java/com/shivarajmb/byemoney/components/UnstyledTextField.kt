@@ -1,4 +1,4 @@
-package com.shivarajmb.byemoney.Components
+package com.shivarajmb.byemoney.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*

@@ -1,4 +1,4 @@
-package com.shivarajmb.byemoney.Models
+package com.shivarajmb.byemoney.models
 
 sealed class Recurrance(val name:String,val target:String){
     object None : Recurrance("None", "None")
