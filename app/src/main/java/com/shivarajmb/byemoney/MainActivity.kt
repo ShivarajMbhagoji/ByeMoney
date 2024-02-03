@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.shivarajmb.byemoney.pages.Add
 import com.shivarajmb.byemoney.pages.Categories
 import com.shivarajmb.byemoney.pages.Expenses
+import com.shivarajmb.byemoney.pages.Report
 import com.shivarajmb.byemoney.pages.Settings
 import com.shivarajmb.byemoney.ui.theme.ByeMoneyTheme
 import com.shivarajmb.byemoney.ui.theme.TopAppBarBackground
@@ -104,57 +105,56 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                    },
-                    content = { innerPadding ->
-                        NavHost(navController = navController, startDestination = "expenses") {
-                            composable("expenses") {
-                                Surface(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(innerPadding),
-                                ) {
-                                    Expenses(navController)
-                                }
+                    }
+                ) { innerPadding ->
+                    NavHost(navController = navController, startDestination = "expenses") {
+                        composable("expenses") {
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding),
+                            ) {
+                                Expenses(navController)
                             }
-                            composable("reports") {
-                                Surface(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(innerPadding),
-                                ) {
-                                    Greeting("Reports")
-                                }
+                        }
+                        composable("reports") {
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding),
+                            ) {
+                                Report(navController)
                             }
-                            composable("Add") {
-                                Surface(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(innerPadding),
-                                ) {
-                                    Add(navController)
-                                }
+                        }
+                        composable("Add") {
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding),
+                            ) {
+                                Add(navController)
                             }
-                            composable("settings") {
-                                Surface(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(innerPadding),
-                                ) {
-                                    Settings(navController)
-                                }
+                        }
+                        composable("settings") {
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding),
+                            ) {
+                                Settings(navController)
                             }
-                            composable("settings/categories") {
-                                Surface(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(innerPadding),
-                                ) {
-                                    Categories(navController)
-                                }
+                        }
+                        composable("settings/categories") {
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding),
+                            ) {
+                                Categories(navController)
                             }
                         }
                     }
-                )
+                }
             }
         }
     }

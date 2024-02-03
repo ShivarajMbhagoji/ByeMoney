@@ -69,4 +69,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation ("io.github.serpro69:kotlin-faker:1.13.0")
+    implementation ("com.github.tehras:charts:0.2.4-alpha")
 }

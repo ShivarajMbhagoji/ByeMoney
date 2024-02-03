@@ -44,7 +44,7 @@ val mockCategories = listOf(
 val mockExpense:List<ExpenseList> = List(10){ index->
     ExpenseList(
         id=index,
-        amount= Random.nextInt(1,999),
+        amount= Random.nextDouble(1.0,999.0),
         recurrence = listOf(
             Recurrance.Daily,
             Recurrance.None,
