@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.shivarajmb.byemoney"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -56,7 +56,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui:1.0.0")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
@@ -70,4 +70,5 @@ dependencies {
 
     implementation ("io.github.serpro69:kotlin-faker:1.13.0")
     implementation ("com.github.tehras:charts:0.2.4-alpha")
+    implementation ("com.google.accompanist:accompanist-pager:0.29.1-alpha")
 }

@@ -123,7 +123,7 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxSize()
                                     .padding(innerPadding),
                             ) {
-                                Report(navController)
+                                Report()
                             }
                         }
                         composable("Add") {

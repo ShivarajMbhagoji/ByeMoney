@@ -14,6 +14,7 @@ import com.github.tehras.charts.bar.renderer.xaxis.SimpleXAxisDrawer
 import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
 import com.github.tehras.charts.piechart.animation.simpleChartAnimation
 import com.shivarajmb.byemoney.models.ExpenseList
+import com.shivarajmb.byemoney.models.Recurrance
 import com.shivarajmb.byemoney.models.groupedByDayOfWeek
 import com.shivarajmb.byemoney.ui.theme.LabelSecondary
 import java.time.DayOfWeek
@@ -67,11 +68,11 @@ fun WeeklyChart(expenses: List<ExpenseList>) {
         ),
         modifier = Modifier.height(157.dp).fillMaxWidth(),
         animation = simpleChartAnimation(),
-        barDrawer = BarDrawer(),
+        barDrawer = BarDrawer(Recurrance.Weekly),
         xAxisDrawer = SimpleXAxisDrawer(),
         yAxisDrawer = SimpleYAxisDrawer(
             labelTextColor = LabelSecondary
         ),
-        labelDrawer = labelDrawer()
+        labelDrawer = labelDrawer(Recurrance.Weekly)
     )
 }

@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -17,5 +18,15 @@ fun LocalDate.dayFormat():String {
         this.isEqual(yesterday) -> "Yesterday"
         this.year != today.year -> this.format(DateTimeFormatter.ofPattern("ddd, dd MMM yyyy"))
         else -> this.format(DateTimeFormatter.ofPattern("E, dd MMM"))
+    }
+}
+
+fun LocalDateTime.dayRangeFormat():String{
+    val today = LocalDateTime.now()
+    val yesterday = today.minusDays(1)
+
+    return when {
+        this.year != today.year -> this.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+        else -> this.format(DateTimeFormatter.ofPattern("dd MMM"))
     }
 }

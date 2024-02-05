@@ -10,11 +10,19 @@ import androidx.compose.ui.graphics.nativeCanvas
 import com.github.tehras.charts.bar.BarChartData
 import com.github.tehras.charts.bar.renderer.bar.BarDrawer
 import com.github.tehras.charts.piechart.utils.toLegacyInt
+import com.shivarajmb.byemoney.models.Recurrance
 import com.shivarajmb.byemoney.ui.theme.SystemGray04
 
-class BarDrawer : BarDrawer {
+class BarDrawer constructor(recurrance: Recurrance): BarDrawer {
     private val barPaint = Paint().apply {
         this.isAntiAlias = true
+    }
+
+    val rightInc=when(recurrance) {
+        Recurrance.Weekly->24f
+        Recurrance.Monthly->8f
+        Recurrance.Yearly->6f
+        else->24f
     }
 
     override fun drawBar(
@@ -26,7 +34,7 @@ class BarDrawer : BarDrawer {
         canvas.drawRoundRect(
             barArea.left,
             0f,
-            barArea.right + 24f,
+            barArea.right +rightInc,
             barArea.bottom,
             16f,
             16f,
@@ -37,7 +45,7 @@ class BarDrawer : BarDrawer {
         canvas.drawRoundRect(
             barArea.left,
             barArea.top,
-            barArea.right + 24f,
+            barArea.right + rightInc,
             barArea.bottom,
             16f,
             16f,
