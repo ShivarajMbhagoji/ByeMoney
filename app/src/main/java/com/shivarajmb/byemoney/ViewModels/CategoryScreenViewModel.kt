@@ -72,4 +72,17 @@ class CategoryViewModel:ViewModel(){
             )
         }
     }
+
+    fun deleteCategory(category: Category) {
+        val index = _uiState.value.categoryList.indexOf(category)
+        val newList = mutableListOf<Category>()
+        newList.addAll(_uiState.value.categoryList)
+        newList.removeAt(index)
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                categoryList = newList
+            )
+        }
+    }
 }

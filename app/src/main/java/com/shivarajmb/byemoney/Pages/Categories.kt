@@ -1,7 +1,9 @@
 package com.shivarajmb.byemoney.pages
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,17 +47,22 @@ import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
+import com.shivarajmb.byemoney.ViewModels.CategoryViewModel
 import com.shivarajmb.byemoney.components.TableRow
 import com.shivarajmb.byemoney.components.UnstyledTextField
-import com.shivarajmb.byemoney.ViewModels.CategoryViewModel
 import com.shivarajmb.byemoney.ui.theme.BackgroundElevated
 import com.shivarajmb.byemoney.ui.theme.ByeMoneyTheme
+import com.shivarajmb.byemoney.ui.theme.Destructive
 import com.shivarajmb.byemoney.ui.theme.DividerColour
 import com.shivarajmb.byemoney.ui.theme.Shapes
 import com.shivarajmb.byemoney.ui.theme.TopAppBarBackground
 import com.shivarajmb.byemoney.ui.theme.Typography
+import me.saket.swipe.SwipeAction
+import me.saket.swipe.SwipeableActionsBox
+import androidx.compose.ui.res.painterResource
+import com.shivarajmb.byemoney.R
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun Categories(navController: NavController,viewM:CategoryViewModel= viewModel()) {
 
@@ -92,40 +99,64 @@ fun Categories(navController: NavController,viewM:CategoryViewModel= viewModel()
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    LazyColumn(modifier=Modifier.fillMaxWidth(),
-                    ){
-                        itemsIndexed(state.categoryList){index,category->
-                            TableRow(){
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                    AnimatedVisibility(visible = true) {
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .clip(Shapes.large)
+                                .fillMaxWidth()
+                        ) {
+                            itemsIndexed(
+                                state.categoryList,
+                                key = { _, category -> category.name }) { index, category ->
+                                SwipeableActionsBox(
+                                    endActions = listOf(
+                                        SwipeAction(
+                                            icon = painterResource(R.drawable.chevron_right),
+                                            background = Destructive,
+                                            onSwipe = { viewM.deleteCategory(category)}
+                                        ),
+                                    ),
+                                    modifier = Modifier.animateItemPlacement()
                                 ) {
-                                    Surface(
-                                        color=category.color,
-                                        shape = CircleShape,
-                                        border = BorderStroke(
-                                            width = 2.dp,
-                                            color=Color.White
-                                        ),
-                                        modifier = Modifier.size(16.dp)
-                                    ) {}
-                                    Text(
-                                        category.name,
-                                        modifier = Modifier.padding(
-                                            horizontal = 16.dp,
-                                            vertical = 10.dp
-                                        ),
-                                        style = Typography.bodyMedium
-                                    )
+                                    TableRow(modifier = Modifier.background(BackgroundElevated)) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            modifier = Modifier.padding(horizontal = 16.dp)
+                                        ) {
+                                            Surface(
+                                                color = category.color,
+                                                shape = CircleShape,
+                                                border = BorderStroke(
+                                                    width = 2.dp,
+                                                    color = Color.White
+                                                ),
+                                                modifier = Modifier.size(16.dp)
+                                            ) {}
+                                            Text(
+                                                category.name,
+                                                modifier = Modifier.padding(
+                                                    horizontal = 16.dp,
+                                                    vertical = 10.dp
+                                                ),
+                                                style = Typography.bodyMedium,
+                                            )
+                                        }
+                                    }
+                                }
+                                if(index<state.categoryList.size-1){
+                                    Row(modifier = Modifier
+                                        .background(BackgroundElevated)
+                                        .height(1.dp)) {
+                                        Divider(
+                                            modifier = Modifier.padding(start = 16.dp),
+                                            thickness = 1.dp,
+                                            color = DividerColour
+                                        )
+                                    }
                                 }
                             }
-                            if(index<state.categoryList.size-1){
-                                Divider(
-                                    modifier=Modifier.padding(start = 16.dp),
-                                    thickness = 1.dp,
-                                    color = DividerColour
-                                )
-                            }
+
                         }
                     }
                 }
