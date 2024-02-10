@@ -48,24 +48,24 @@ val mockCategories = listOf(
 
 @RequiresApi(Build.VERSION_CODES.O)
 val mockExpenses: List<ExpenseList> = List(30) { index ->
-  ExpenseList(
-    id = index,
-    amount = faker.random.nextInt(min = 1, max = 999)
-      .toDouble() + faker.random.nextDouble(),
-    date = LocalDateTime.now().minus(
-      faker.random.nextInt(min = 300, max = 345600).toLong(),
-      ChronoUnit.SECONDS
-    ),
-    recurrence = faker.random.randomValue(
-      listOf(
-          Recurrance.None,
-          Recurrance.Daily,
-          Recurrance.Monthly,
-          Recurrance.Weekly,
-          Recurrance.Yearly
-      )
-    ),
-    note = faker.australia.animals(),
-    category = faker.random.randomValue(mockCategories)
-  )
+//  ExpenseList(
+//    amount = faker.random.nextInt(min = 1, max = 999)
+//      .toDouble() + faker.random.nextDouble(),
+//    date = LocalDateTime.now().minus(
+//      faker.random.nextInt(min = 300, max = 345600).toLong(),
+//      ChronoUnit.SECONDS
+//    ),
+//    recurrance  = faker.random.randomValue(
+//      listOf(
+//          Recurrance.None,
+//          Recurrance.Daily,
+//          Recurrance.Monthly,
+//          Recurrance.Weekly,
+//          Recurrance.Yearly
+//      )
+//    ),
+//    note = faker.australia.animals(),
+//    category = faker.random.randomValue(mockCategories)
+//  )
+  ExpenseList()
 }

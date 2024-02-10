@@ -107,7 +107,7 @@ fun Categories(navController: NavController,viewM:CategoryViewModel= viewModel()
                                 .fillMaxWidth()
                         ) {
                             itemsIndexed(
-                                state.categoryList,
+                                state.categories,
                                 key = { _, category -> category.name }) { index, category ->
                                 SwipeableActionsBox(
                                     endActions = listOf(
@@ -144,7 +144,7 @@ fun Categories(navController: NavController,viewM:CategoryViewModel= viewModel()
                                         }
                                     }
                                 }
-                                if(index<state.categoryList.size-1){
+                                if(index<state.categories.size-1){
                                     Row(modifier = Modifier
                                         .background(BackgroundElevated)
                                         .height(1.dp)) {
@@ -259,7 +259,7 @@ fun Categories(navController: NavController,viewM:CategoryViewModel= viewModel()
                         }
                     }
                     IconButton(
-                        onClick = { viewM.addNewCategory() },
+                        onClick = { viewM.createNewCategory() },
                         modifier = Modifier
                             .padding(start = 16.dp)
                     ) {

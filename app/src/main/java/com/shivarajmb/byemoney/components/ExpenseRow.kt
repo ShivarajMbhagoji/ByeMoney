@@ -27,7 +27,7 @@ fun ExpenseRow(expense:ExpenseList,modifier: Modifier=Modifier) {
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             Text(
-                expense.note?:expense.category.name,
+                expense.note?:expense.category!!.name,
                 style = Typography.headlineMedium
             )
             Text(
@@ -39,7 +39,7 @@ fun ExpenseRow(expense:ExpenseList,modifier: Modifier=Modifier) {
             modifier=modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ){
-            CategoryBadge(category=expense.category)
+            CategoryBadge(category=expense.category!!)
             Text(expense.date.format(DateTimeFormatter.ofPattern("HH:mm")),
                 style = Typography.bodyMedium,
                 color= LabelSecondary

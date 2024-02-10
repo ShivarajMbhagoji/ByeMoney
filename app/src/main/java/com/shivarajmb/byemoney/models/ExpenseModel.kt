@@ -2,17 +2,41 @@ package com.shivarajmb.byemoney.models
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import io.realm.kotlin.types.ObjectId
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-data class ExpenseList(
-    val id: Int,
-    val amount: Double,
-    val recurrence: Recurrance,
-    val date: LocalDateTime,
-    val note: String?,
-    val category: Category,
-)
+class ExpenseList(): RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId.create()
+    var amount: Double = 0.0
+
+    private var _recurrenceName: String = "None"
+    val recurrence: Recurrance get() { return _recurrenceName.toRecurrance() }
+
+    private var _dateValue: String = LocalDateTime.now().toString()
+    val date: LocalDateTime get() { return LocalDateTime.parse(_dateValue) }
+
+    var note: String = ""
+    var category: Category? = null
+
+    constructor(
+        amount: Double,
+        recurrence: Recurrance,
+        date: LocalDateTime,
+        note: String,
+        category: Category,
+    ) : this() {
+        this.amount = amount
+        this._recurrenceName = recurrence.name
+        this._dateValue = date.toString()
+        this.note = note
+        this.category = category
+    }
+}
+
 
 data class DayExpense(
     val expenses:MutableList<ExpenseList>,

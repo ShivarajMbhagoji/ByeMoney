@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -67,11 +68,11 @@ fun Add(navController: NavController,viewM:AddScreenViewModel=viewModel()) {
         Recurrance.Yearly
     )
 
-    val categories = listOf("Groceries", "Bills", "Hobbies", "Take out")
+
 
     Scaffold(
         topBar = {
-            MediumTopAppBar(title = { Text("Settings") }, colors = TopAppBarDefaults.mediumTopAppBarColors(
+            MediumTopAppBar(title = { Text("Add") }, colors = TopAppBarDefaults.mediumTopAppBarColors(
                 containerColor = TopAppBarBackground
             ))
         },
@@ -86,79 +87,64 @@ fun Add(navController: NavController,viewM:AddScreenViewModel=viewModel()) {
                     .background(BackgroundElevated)
                     .fillMaxWidth()
                 ) {
-                    TableRow("Amount"){
+                    TableRow(label = "Amount", detailContent = {
                         UnstyledTextField(
                             value = state.amount,
-                            onValueChange =viewM::setAmount,
+                            onValueChange = viewM::setAmount,
                             modifier = Modifier.fillMaxWidth(),
                             placeholder = { Text("0") },
                             arrangement = Arrangement.End,
                             maxLines = 1,
-
                             textStyle = TextStyle(
-                                textAlign = TextAlign.Right
+                                textAlign = TextAlign.Right,
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
                             )
                         )
-                    }
+                    })
                     Divider(modifier=Modifier.padding(start = 16.dp), thickness = 1.dp, color = DividerColour)
-                    TableRow("Recurrance"){
+                    TableRow(label = "Recurrence", detailContent = {
                         var recurrenceMenuOpened by remember {
                             mutableStateOf(false)
                         }
                         TextButton(
-                            onClick = { recurrenceMenuOpened=true },
-                            shape= Shapes.large
-                            ) {
-                                Text(state.recurrance?.name?:Recurrance.None.name)
-                                DropdownMenu(
-                                    expanded =recurrenceMenuOpened,
-                                    onDismissRequest = { recurrenceMenuOpened=false }
-                                ) {recurrences.forEach { recurrance ->
-                                    DropdownMenuItem(
-                                        text = { Text(text = recurrance.name) },
-                                        onClick = {
-                                            viewM.setRecurrance(recurrance)
-                                            recurrenceMenuOpened=false
-                                        }
-                                    )
+                            onClick = { recurrenceMenuOpened = true }, shape = Shapes.large
+                        ) {
+                            Text(state.recurrance?.name ?: Recurrance.None.name)
+                            DropdownMenu(expanded = recurrenceMenuOpened,
+                                onDismissRequest = { recurrenceMenuOpened = false }) {
+                                recurrences.forEach { recurrence ->
+                                    DropdownMenuItem(text = { Text(recurrence.name) }, onClick = {
+                                        viewM.setRecurrance(recurrence)
+                                        recurrenceMenuOpened = false
+                                    })
                                 }
-
                             }
-
                         }
-                    }
+                    })
 
                     Divider(modifier=Modifier.padding(start = 16.dp), thickness = 1.dp, color = DividerColour)
 
                     var datePickerShowing by remember {
                         mutableStateOf(false)
                     }
-                    TableRow("Date") {
+                    TableRow(label = "Date", detailContent = {
                         TextButton(onClick = { datePickerShowing = true }) {
                             Text(state.date.toString())
                         }
                         if (datePickerShowing) {
-                            DatePickerDialog(
-
-                                onDismissRequest = { datePickerShowing = false },
-                                onDateChange = { it->
+                            DatePickerDialog(onDismissRequest = { datePickerShowing = false },
+                                onDateChange = { it ->
                                     viewM.setDate(it)
                                     datePickerShowing = false
                                 },
                                 initialDate = state.date,
-                                title = {
-                                    Text("Select date",
-                                    style = Typography.titleLarge)
-                                },
-                            )
+                                title = { Text("Select date", style = Typography.titleLarge) })
                         }
-                    }
+                    })
                     Divider(modifier=Modifier.padding(start = 16.dp), thickness = 1.dp, color = DividerColour)
-                    TableRow(
-                        "Note"){
+                    TableRow(label = "Note", detailContent = {
                         UnstyledTextField(
                             value = state.note,
                             placeholder = { Text("Leave some notes") },
@@ -169,46 +155,49 @@ fun Add(navController: NavController,viewM:AddScreenViewModel=viewModel()) {
                                 textAlign = TextAlign.Right,
                             ),
                         )
-                    }
+                    })
                     Divider(modifier=Modifier.padding(start = 16.dp), thickness = 1.dp, color = DividerColour)
 
 
-                    TableRow("Category") {
+                    TableRow(label = "Category", detailContent = {
                         var categoriesMenuOpened by remember {
                             mutableStateOf(false)
                         }
                         TextButton(
-                            onClick = { categoriesMenuOpened = true },
-                            shape = Shapes.large
+                            onClick = { categoriesMenuOpened = true }, shape = Shapes.large
                         ) {
-                            // TODO: Change the color of the text based on the selected category
-                            Text(state.category ?: "Select a category first")
-                            DropdownMenu(
-                                expanded = categoriesMenuOpened,
+                            Text(
+                                state.category?.name ?: "Select a category first",
+                                color = state.category?.color ?: Color.White
+                            )
+                            DropdownMenu(expanded = categoriesMenuOpened,
                                 onDismissRequest = { categoriesMenuOpened = false }) {
-                                categories.forEach { category ->
-                                    DropdownMenuItem(
-                                        text = {
-                                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                                // TODO: change the color based on the category
-                                                Surface(modifier = Modifier.size(10.dp), shape = CircleShape, color = Primary) {}
-                                                Text(category, modifier = Modifier.padding(start = 8.dp))
-                                            }
-                                        },
-                                        onClick = {
-                                            viewM.setCategory(category)
-                                            categoriesMenuOpened = false
+                                state.categories?.forEach { category ->
+                                    DropdownMenuItem(text = {
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                            Surface(
+                                                modifier = Modifier.size(10.dp),
+                                                shape = CircleShape,
+                                                color = category.color
+                                            ) {}
+                                            Text(
+                                                category.name, modifier = Modifier.padding(start = 8.dp)
+                                            )
                                         }
-                                    )
+                                    }, onClick = {
+                                        viewM.setCategory(category)
+                                        categoriesMenuOpened = false
+                                    })
                                 }
                             }
                         }
-                    }
+                    })
 
                     Button(
                         onClick = viewM::submitExpense,
                         modifier = Modifier.padding(16.dp),
-                        shape = Shapes.large
+                        shape = Shapes.large,
+                        enabled = state.category != null
                     ) {
                         Text("Submit expense")
                     }

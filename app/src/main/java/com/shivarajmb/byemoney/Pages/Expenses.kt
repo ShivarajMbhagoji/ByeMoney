@@ -35,11 +35,11 @@ import com.shivarajmb.byemoney.ViewModels.ExpensesViewModel
 import com.shivarajmb.byemoney.components.periodPicker
 import com.shivarajmb.byemoney.models.ExpenseDayList
 import com.shivarajmb.byemoney.models.Recurrance
-import com.shivarajmb.byemoney.models.mockExpense
 import com.shivarajmb.byemoney.ui.theme.ByeMoneyTheme
 import com.shivarajmb.byemoney.ui.theme.LabelSecondary
 import com.shivarajmb.byemoney.ui.theme.TopAppBarBackground
 import com.shivarajmb.byemoney.ui.theme.Typography
+import java.text.DecimalFormat
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,7 +87,7 @@ fun Expenses(navController: NavController,viewM:ExpensesViewModel= viewModel()){
 
                     )
                     periodPicker(
-                        label = state.recurrance.target,
+                        label = state.recurrence.target,
                         onClick = { recurranceMenuOpened=!recurranceMenuOpened },
                         modifier = Modifier.padding(start = 16.dp)
                     )
@@ -111,17 +111,17 @@ fun Expenses(navController: NavController,viewM:ExpensesViewModel= viewModel()){
                 ) {
                     Text(
                         text = "$",
-                        style = Typography.titleSmall,
+                        style = Typography.bodyMedium,
                         color = LabelSecondary,
                         modifier = Modifier.padding(end = 4.dp,top=4.dp)
                     )
                     Text(
-                        "${state.sumTotal}",
+                        DecimalFormat("0.#").format(state.sumTotal),
                         style = Typography.titleLarge
                     )
                 }
                 ExpenseDayList(
-                    expense =mockExpense,
+                    expense =state.expenses,
                     modifier = Modifier
                         .weight(1f)
                         .verticalScroll(

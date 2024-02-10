@@ -3,27 +3,45 @@ package com.shivarajmb.byemoney.ViewModels
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.shivarajmb.byemoney.components.db
 import com.shivarajmb.byemoney.models.Category
+import io.realm.kotlin.ext.query
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 data class categoryScreen(
     val newCategoryColor:Color= Color.White,
     val newCategoryName:String="",
     val colorPickerShowing:Boolean=false,
-    val categoryList:MutableList<Category> = mutableListOf(
-        Category("Bills", Color.Red),
-        Category("Subscriptions", Color.Yellow),
-        Category("Take out", Color.Blue),
-        Category("Hobbies", Color.Cyan),
-    )
+    val categories:List<Category> =listOf()
 )
 
 class CategoryViewModel:ViewModel(){
     val _uiState= MutableStateFlow(categoryScreen())
     val uiState:StateFlow<categoryScreen> = _uiState.asStateFlow()
+
+    init {
+        _uiState.update { currentState ->
+            currentState.copy(
+                categories = db.query<Category>().find()
+            )
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            db.query<Category>().asFlow().collect { changes ->
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        categories = changes.list
+                    )
+                }
+            }
+        }
+    }
 
     fun setNewCategoryName(name:String){
         _uiState.update {currentState->
@@ -62,27 +80,41 @@ class CategoryViewModel:ViewModel(){
             Category(_uiState.value.newCategoryName,_uiState.value.newCategoryColor)
         )
 
-        newCategoryList.addAll(_uiState.value.categoryList)
+        newCategoryList.addAll(_uiState.value.categories)
 
         _uiState.update { currentScreen->
             currentScreen.copy(
-                categoryList = newCategoryList,
+                categories = newCategoryList,
                 newCategoryName = "",
                 newCategoryColor = Color.White
             )
         }
     }
 
-    fun deleteCategory(category: Category) {
-        val index = _uiState.value.categoryList.indexOf(category)
-        val newList = mutableListOf<Category>()
-        newList.addAll(_uiState.value.categoryList)
-        newList.removeAt(index)
+    fun createNewCategory(){
+        viewModelScope.launch (Dispatchers.IO){
+            db.write {
+                this.copyToRealm(Category(
+                    _uiState.value.newCategoryName,
+                    _uiState.value.newCategoryColor
+                ))
+            }
+            _uiState.update { currentState ->
+                currentState.copy(
+                    newCategoryColor = Color.White,
+                    newCategoryName = ""
+                )
+            }
+        }
+    }
 
-        _uiState.update { currentState ->
-            currentState.copy(
-                categoryList = newList
-            )
+    fun deleteCategory(category: Category) {
+        viewModelScope.launch(Dispatchers.IO) {
+            db.write {
+                val deletingCategory =
+                    this.query<Category>("_id == $0", category._id).find().first()
+                delete(deletingCategory)
+            }
         }
     }
 }

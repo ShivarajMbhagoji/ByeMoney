@@ -68,7 +68,7 @@ fun Report(viewM: reportScreenViewModel = viewModel()) {
                             )
                         }
                     }
-                },
+                }
             )
         },
         content = { innerPadding ->
@@ -79,7 +79,7 @@ fun Report(viewM: reportScreenViewModel = viewModel()) {
                 else->53
             }
             HorizontalPager(count = pages, reverseLayout = true) {page->
-                reportGroup(innerPadding = innerPadding,page = page, recurrance = state.recurrance)
+                reportGroup( innerPadding, page,state.recurrance)
 
             }
         }

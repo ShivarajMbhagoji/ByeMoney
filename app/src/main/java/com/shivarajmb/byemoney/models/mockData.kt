@@ -43,30 +43,30 @@ val mockCategories = listOf(
 @RequiresApi(Build.VERSION_CODES.O)
 val mockExpense:List<ExpenseList> = List(10){ index->
     ExpenseList(
-        id=index,
-        amount= Random.nextDouble(1.0,999.0),
-        recurrence = listOf(
-            Recurrance.Daily,
-            Recurrance.None,
-            Recurrance.Monthly,
-            Recurrance.Yearly,
-            Recurrance.Weekly
-        ).random(),
-        date = LocalDateTime.now().minus(
-            Random.nextInt(300, 345600).toLong(),
-            ChronoUnit.SECONDS
-        ),
-        note= listOf(
-            "Time",
-            "Pass",
-            "Data",
-            "Money",
-            "Gandu",
-            "Namman",
-            "Snacks",
-            "Fuck",
-            "Juice"
-        ).random(),
-        category = mockCategories.random()
+
+//        amount= Random.nextDouble(1.0,999.0),
+//        recurrance = listOf(
+//            Recurrance.Daily,
+//            Recurrance.None,
+//            Recurrance.Monthly,
+//            Recurrance.Yearly,
+//            Recurrance.Weekly
+//        ).random(),
+//        date = LocalDateTime.now().minus(
+//            Random.nextInt(300, 345600).toLong(),
+//            ChronoUnit.SECONDS
+//        ),
+//        note= listOf(
+//            "Time",
+//            "Pass",
+//            "Data",
+//            "Money",
+//            "Gandu",
+//            "Namman",
+//            "Snacks",
+//            "Fuck",
+//            "Juice"
+//        ).random(),
+//        category = mockCategories.random()
     )
 }
