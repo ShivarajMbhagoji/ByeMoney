@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.TextStyle
@@ -22,33 +23,31 @@ import com.shivarajmb.byemoney.ui.theme.TextPrimary
 fun UnstyledTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
-    label: @Composable (() -> Unit)? = null,
-    placeholder: @Composable (() -> Unit)? = null,
+    label: @Composable() (() -> Unit)? = null,
+    placeholder: @Composable() (() -> Unit)? = null,
     arrangement: Arrangement.Horizontal = Arrangement.Start,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable() (() -> Unit)? = null,
+    trailingIcon: @Composable() (() -> Unit)? = null,
+    supportingText: @Composable() (() -> Unit)? = null,
     isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
-    interactionSource: MutableInteractionSource = remember{ MutableInteractionSource() },
-    shape: androidx.compose.ui.graphics.Shape = TextFieldDefaults.filledShape,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    shape: Shape = TextFieldDefaults.filledShape,
     colors: TextFieldColors = TextFieldDefaults.textFieldColors()
 ) {
-    // If color is not provided via the text style, use content color as a default
     val textColor = TextPrimary
-    val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
+    val mergedTextStyle =
+        textStyle.merge(TextStyle(color = textColor))
 
-    BasicTextField(
-        value = value,
-        modifier = modifier,
+    BasicTextField(value = value,
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
@@ -66,7 +65,11 @@ fun UnstyledTextField(
                 visualTransformation = visualTransformation,
                 innerTextField = innerTextField,
                 placeholder = {
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = arrangement) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = arrangement,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         placeholder?.invoke()
                     }
                 },
@@ -79,7 +82,7 @@ fun UnstyledTextField(
                 enabled = enabled,
                 isError = isError,
                 interactionSource = interactionSource,
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     textColor = TextPrimary,
@@ -89,6 +92,5 @@ fun UnstyledTextField(
                     disabledIndicatorColor = Color.Transparent,
                 ),
             )
-        }
-    )
+        })
 }

@@ -19,20 +19,21 @@ import com.shivarajmb.byemoney.ui.theme.Typography
 
 @Composable
 fun TableRow(
-    label: String?=null,
-    modifier: Modifier=Modifier,hasArrow: Boolean = false,
+    modifier: Modifier = Modifier,
+    label: String? = null,
+    hasArrow: Boolean = false,
     isDestructive: Boolean = false,
     detailContent: (@Composable RowScope.() -> Unit)? = null,
     content: (@Composable RowScope.() -> Unit)? = null
 ) {
     val textColor = if (isDestructive) Destructive else TextPrimary
 
-
-
-    Row(modifier = modifier.fillMaxWidth(),
+    Row(
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,) {
-        if(label!=null){
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (label != null) {
             Text(
                 text = label,
                 style = Typography.bodyMedium,

@@ -21,14 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.shivarajmb.byemoney.ViewModels.ReportGroupViewModel
 import com.shivarajmb.byemoney.ViewModels.viewModelFactory
-import com.shivarajmb.byemoney.charts.monthlyChart
-import com.shivarajmb.byemoney.charts.yearlyChart
-import com.shivarajmb.byemoney.models.ExpenseDayList
-import com.shivarajmb.byemoney.models.Recurrance
-import com.shivarajmb.byemoney.models.dayRangeFormat
-import com.shivarajmb.byemoney.models.mockExpense
+import com.shivarajmb.byemoney.components.charts.MonthlyChart
+import com.shivarajmb.byemoney.components.charts.WeeklyChart
+import com.shivarajmb.byemoney.components.charts.YearlyChart
+import com.shivarajmb.byemoney.models.Recurrence
 import com.shivarajmb.byemoney.ui.theme.LabelSecondary
 import com.shivarajmb.byemoney.ui.theme.Typography
+import com.shivarajmb.byemoney.utils.formatDayForRange
 import java.text.DecimalFormat
 import java.time.LocalDate
 
@@ -37,10 +36,10 @@ import java.time.LocalDate
 fun reportGroup(
     innerPadding:PaddingValues,
     page:Int,
-    recurrance:Recurrance,
-    viewM: ReportGroupViewModel= viewModel(key = "$page-${recurrance.name}",
+    recurrence:Recurrence,
+    viewM: ReportGroupViewModel= viewModel(key = "$page-${recurrence.name}",
         factory = viewModelFactory {
-        ReportGroupViewModel(page,recurrance)
+        ReportGroupViewModel(page,recurrence)
     })
 ){
 
@@ -61,8 +60,8 @@ fun reportGroup(
             Column {
                 Text(
                     "${
-                        uiState.startDate.dayRangeFormat()
-                    } - ${uiState.endDate.dayRangeFormat()}",
+                        uiState.startDate.formatDayForRange()
+                    } - ${uiState.endDate.formatDayForRange()}",
                     style = Typography.titleSmall
                 )
                 Row(modifier = Modifier.padding(top = 4.dp)) {
@@ -94,21 +93,21 @@ fun reportGroup(
                 .height(180.dp)
                 .padding(vertical = 16.dp)
         ) {
-            when (recurrance) {
-                Recurrance.Weekly -> com.shivarajmb.byemoney.charts.WeeklyChart(uiState.expenses)
-                Recurrance.Monthly -> monthlyChart(
+            when (recurrence) {
+                Recurrence.Weekly -> WeeklyChart(uiState.expenses)
+                Recurrence.Monthly -> MonthlyChart(
                     uiState.expenses,
                     LocalDate.now()
                 )
-                Recurrance.Yearly -> yearlyChart(uiState.expenses)
+                Recurrence.Yearly -> YearlyChart(uiState.expenses)
                 else -> Unit
             }
         }
 
 
 
-        ExpenseDayList(
-            expense = mockExpense,
+        ExpenseList(
+            expense = uiState.expenses,
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(

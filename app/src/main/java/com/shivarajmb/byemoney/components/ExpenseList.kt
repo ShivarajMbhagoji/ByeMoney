@@ -1,4 +1,4 @@
-package com.shivarajmb.byemoney.models
+package com.shivarajmb.byemoney.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -6,14 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.shivarajmb.byemoney.components.ExpenseDayGroup
-import com.shivarajmb.byemoney.ui.theme.ByeMoneyTheme
+import com.shivarajmb.byemoney.models.Expense
+import com.shivarajmb.byemoney.models.groupedByDay
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExpenseDayList(expense:List<ExpenseList>,modifier: Modifier=Modifier) {
+fun ExpenseList(expense:List<Expense>, modifier: Modifier=Modifier) {
     val groupedExpense=expense.groupedByDay()
 
     Column(modifier = modifier) {
@@ -28,12 +27,12 @@ fun ExpenseDayList(expense:List<ExpenseList>,modifier: Modifier=Modifier) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun ExpenseDayPreview() {
-    ByeMoneyTheme {
-        ExpenseDayList(expense = mockExpense)
-    }
-}
+//@RequiresApi(Build.VERSION_CODES.O)
+//@Preview(showBackground = true)
+//@Composable
+//fun ExpenseDayPreview() {
+//    ByeMoneyTheme {
+//        ExpenseList(expense = mockExpense)
+//    }
+//}
 

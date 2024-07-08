@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.shivarajmb.byemoney.models.DayExpense
-import com.shivarajmb.byemoney.models.dayFormat
 import com.shivarajmb.byemoney.ui.theme.LabelSecondary
 import com.shivarajmb.byemoney.ui.theme.Typography
+import com.shivarajmb.byemoney.utils.formatDay
 import java.text.DecimalFormat
 import java.time.LocalDate
 
@@ -32,7 +32,7 @@ fun ExpenseDayGroup(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-                day.dayFormat(),
+                day.formatDay(),
                 style = Typography.headlineMedium,
                 color = LabelSecondary
         )

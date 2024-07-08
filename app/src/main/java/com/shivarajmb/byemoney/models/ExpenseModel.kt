@@ -2,19 +2,21 @@ package com.shivarajmb.byemoney.models
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import io.realm.kotlin.types.ObjectId
-import io.realm.kotlin.types.RealmObject
-import io.realm.kotlin.types.annotations.PrimaryKey
+
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-class ExpenseList(): RealmObject {
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
+import org.mongodb.kbson.ObjectId
+
+class Expense(): RealmObject {
     @PrimaryKey
-    var _id: ObjectId = ObjectId.create()
+    var _id: ObjectId = ObjectId.invoke()
     var amount: Double = 0.0
 
     private var _recurrenceName: String = "None"
-    val recurrence: Recurrance get() { return _recurrenceName.toRecurrance() }
+    val recurrence: Recurrence get() { return _recurrenceName.toRecurrence() }
 
     private var _dateValue: String = LocalDateTime.now().toString()
     val date: LocalDateTime get() { return LocalDateTime.parse(_dateValue) }
@@ -24,7 +26,7 @@ class ExpenseList(): RealmObject {
 
     constructor(
         amount: Double,
-        recurrence: Recurrance,
+        recurrence: Recurrence,
         date: LocalDateTime,
         note: String,
         category: Category,
@@ -39,12 +41,12 @@ class ExpenseList(): RealmObject {
 
 
 data class DayExpense(
-    val expenses:MutableList<ExpenseList>,
+    val expenses:MutableList<Expense>,
     var total:Double
 )
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun List<ExpenseList>.groupedByDay():MutableMap<LocalDate,DayExpense>{
+fun List<Expense>.groupedByDay():MutableMap<LocalDate,DayExpense>{
     val dataMap:MutableMap<LocalDate,DayExpense> = mutableMapOf()
 
     this.forEach { expense ->
@@ -69,7 +71,7 @@ fun List<ExpenseList>.groupedByDay():MutableMap<LocalDate,DayExpense>{
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun List<ExpenseList>.groupedByDayOfWeek():MutableMap<String,DayExpense>{
+fun List<Expense>.groupedByDayOfWeek():MutableMap<String,DayExpense>{
     val dataMap:MutableMap<String,DayExpense> = mutableMapOf()
 
     this.forEach { expense ->
@@ -91,7 +93,7 @@ fun List<ExpenseList>.groupedByDayOfWeek():MutableMap<String,DayExpense>{
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun List<ExpenseList>.groupedByDayOfMonth():MutableMap<Int,DayExpense>{
+fun List<Expense>.groupedByDayOfMonth():MutableMap<Int,DayExpense>{
     val dataMap:MutableMap<Int,DayExpense> = mutableMapOf()
 
     this.forEach { expense ->
@@ -112,7 +114,7 @@ fun List<ExpenseList>.groupedByDayOfMonth():MutableMap<Int,DayExpense>{
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun List<ExpenseList>.groupedByMonth():MutableMap<String,DayExpense>{
+fun List<Expense>.groupedByMonth():MutableMap<String,DayExpense>{
     val dataMap:MutableMap<String,DayExpense> = mutableMapOf()
 
     this.forEach { expense ->

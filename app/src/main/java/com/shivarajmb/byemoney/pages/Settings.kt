@@ -27,9 +27,9 @@ import com.shivarajmb.byemoney.ui.theme.BackgroundElevated
 import com.shivarajmb.byemoney.ui.theme.TopAppBarBackground
 import com.shivarajmb.byemoney.ui.theme.Shapes
 import com.shivarajmb.byemoney.components.TableRow
-import com.shivarajmb.byemoney.components.db
+import com.shivarajmb.byemoney.db
 import com.shivarajmb.byemoney.models.Category
-import com.shivarajmb.byemoney.models.ExpenseList
+import com.shivarajmb.byemoney.models.Expense
 import com.shivarajmb.byemoney.ui.theme.DividerColour
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.launch
@@ -46,7 +46,7 @@ fun Settings(navController: NavController) {
     val eraseAllData: () -> Unit = {
         coroutineScope.launch {
             db.write {
-                val expenses = this.query<ExpenseList>().find()
+                val expenses = this.query<Expense>().find()
                 val categories = this.query<Category>().find()
 
                 delete(expenses)

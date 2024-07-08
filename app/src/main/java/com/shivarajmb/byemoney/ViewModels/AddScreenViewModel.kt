@@ -2,10 +2,10 @@ package com.shivarajmb.byemoney.ViewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shivarajmb.byemoney.components.db
+import com.shivarajmb.byemoney.db
 import com.shivarajmb.byemoney.models.Category
-import com.shivarajmb.byemoney.models.ExpenseList
-import com.shivarajmb.byemoney.models.Recurrance
+import com.shivarajmb.byemoney.models.Expense
+import com.shivarajmb.byemoney.models.Recurrence
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.query.RealmResults
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 
 data class AddScreen(
     val amount:String="",
-    val recurrance:Recurrance=Recurrance.None,
+    val recurrence:Recurrence=Recurrence.None,
     val date:LocalDate=LocalDate.now(),
     val note: String = "",
     val category: Category?=null,
@@ -55,10 +55,10 @@ class AddScreenViewModel:ViewModel() {
         }
     }
 
-    fun setRecurrance(recurrance: Recurrance) {
+    fun setRecurrance(recurrence: Recurrence) {
             _State.update { currentState ->
                 currentState.copy(
-                    recurrance = recurrance
+                    recurrence = recurrence
                 )
             }
     }
@@ -94,9 +94,9 @@ class AddScreenViewModel:ViewModel() {
                     val now = LocalDateTime.now()
                     db.write {
                         this.copyToRealm(
-                            ExpenseList(
+                            Expense(
                                 _State.value.amount.toDouble(),
-                                _State.value.recurrance,
+                                _State.value.recurrence,
                                 _State.value.date.atTime(now.hour, now.minute, now.second),
                                 _State.value.note,
                                 this.query<Category>("_id == $0", _State.value.category!!._id)
@@ -107,7 +107,7 @@ class AddScreenViewModel:ViewModel() {
                     _State.update { currentState ->
                         currentState.copy(
                             amount = "",
-                            recurrance = Recurrance.None,
+                            recurrence = Recurrence.None,
                             date = LocalDate.now(),
                             note = "",
                             category = null,

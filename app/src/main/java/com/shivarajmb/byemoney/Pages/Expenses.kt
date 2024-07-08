@@ -33,8 +33,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.shivarajmb.byemoney.ViewModels.ExpensesViewModel
 import com.shivarajmb.byemoney.components.periodPicker
-import com.shivarajmb.byemoney.models.ExpenseDayList
-import com.shivarajmb.byemoney.models.Recurrance
+import com.shivarajmb.byemoney.components.ExpenseList
+import com.shivarajmb.byemoney.models.Recurrence
 import com.shivarajmb.byemoney.ui.theme.ByeMoneyTheme
 import com.shivarajmb.byemoney.ui.theme.LabelSecondary
 import com.shivarajmb.byemoney.ui.theme.TopAppBarBackground
@@ -47,10 +47,10 @@ import java.text.DecimalFormat
 fun Expenses(navController: NavController,viewM:ExpensesViewModel= viewModel()){
 
     val recurrences = listOf(
-        Recurrance.Daily,
-        Recurrance.Weekly,
-        Recurrance.Monthly,
-        Recurrance.Yearly
+        Recurrence.Daily,
+        Recurrence.Weekly,
+        Recurrence.Monthly,
+        Recurrence.Yearly
     )
 
     val state by viewM.uiState.collectAsState()
@@ -120,7 +120,7 @@ fun Expenses(navController: NavController,viewM:ExpensesViewModel= viewModel()){
                         style = Typography.titleLarge
                     )
                 }
-                ExpenseDayList(
+                ExpenseList(
                     expense =state.expenses,
                     modifier = Modifier
                         .weight(1f)

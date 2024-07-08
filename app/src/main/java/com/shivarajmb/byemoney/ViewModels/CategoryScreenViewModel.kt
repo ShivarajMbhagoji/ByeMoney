@@ -4,7 +4,7 @@ package com.shivarajmb.byemoney.ViewModels
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shivarajmb.byemoney.components.db
+import com.shivarajmb.byemoney.db
 import com.shivarajmb.byemoney.models.Category
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-data class categoryScreen(
+data class CategoryScreenState(
     val newCategoryColor:Color= Color.White,
     val newCategoryName:String="",
     val colorPickerShowing:Boolean=false,
@@ -22,8 +22,8 @@ data class categoryScreen(
 )
 
 class CategoryViewModel:ViewModel(){
-    val _uiState= MutableStateFlow(categoryScreen())
-    val uiState:StateFlow<categoryScreen> = _uiState.asStateFlow()
+    val _uiState= MutableStateFlow(CategoryScreenState())
+    val uiState:StateFlow<CategoryScreenState> = _uiState.asStateFlow()
 
     init {
         _uiState.update { currentState ->
@@ -71,22 +71,6 @@ class CategoryViewModel:ViewModel(){
         _uiState.update { currentState->
             currentState.copy(
                 colorPickerShowing = false
-            )
-        }
-    }
-
-    fun addNewCategory(){
-        val newCategoryList:MutableList<Category> = mutableListOf(
-            Category(_uiState.value.newCategoryName,_uiState.value.newCategoryColor)
-        )
-
-        newCategoryList.addAll(_uiState.value.categories)
-
-        _uiState.update { currentScreen->
-            currentScreen.copy(
-                categories = newCategoryList,
-                newCategoryName = "",
-                newCategoryColor = Color.White
             )
         }
     }

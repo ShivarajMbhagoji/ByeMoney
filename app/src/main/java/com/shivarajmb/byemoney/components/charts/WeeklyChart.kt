@@ -1,27 +1,24 @@
-package com.shivarajmb.byemoney.charts
+package com.shivarajmb.byemoney.components.charts
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.github.tehras.charts.bar.BarChart
 import com.github.tehras.charts.bar.BarChartData
-import com.github.tehras.charts.bar.renderer.xaxis.SimpleXAxisDrawer
 import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
-import com.github.tehras.charts.piechart.animation.simpleChartAnimation
-import com.shivarajmb.byemoney.models.ExpenseList
-import com.shivarajmb.byemoney.models.Recurrance
+import com.shivarajmb.byemoney.models.Expense
+import com.shivarajmb.byemoney.models.Recurrence
 import com.shivarajmb.byemoney.models.groupedByDayOfWeek
 import com.shivarajmb.byemoney.ui.theme.LabelSecondary
+import com.shivarajmb.byemoney.utils.simplifyNumber
 import java.time.DayOfWeek
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun WeeklyChart(expenses: List<ExpenseList>) {
+fun WeeklyChart(expenses: List<Expense>) {
     val groupedExpenses = expenses.groupedByDayOfWeek()
 
     BarChart(
@@ -63,16 +60,18 @@ fun WeeklyChart(expenses: List<ExpenseList>) {
                     value = groupedExpenses[DayOfWeek.SUNDAY.name]?.total?.toFloat() ?: 0f,
                     color = Color.White
                 ),
-
             )
         ),
-        modifier = Modifier.height(157.dp).fillMaxWidth(),
-        animation = simpleChartAnimation(),
-        barDrawer = BarDrawer(Recurrance.Weekly),
-        xAxisDrawer = SimpleXAxisDrawer(),
+        labelDrawer = LabelDrawer(recurrence = Recurrence.Weekly),
         yAxisDrawer = SimpleYAxisDrawer(
-            labelTextColor = LabelSecondary
+            labelTextColor = LabelSecondary,
+            labelValueFormatter = ::simplifyNumber,
+            labelRatio = 7,
+            labelTextSize = 14.sp
         ),
-        labelDrawer = labelDrawer(Recurrance.Weekly)
+        barDrawer = BarDrawer(recurrence = Recurrence.Weekly),
+        modifier = Modifier
+            .padding(bottom = 20.dp)
+            .fillMaxSize()
     )
 }

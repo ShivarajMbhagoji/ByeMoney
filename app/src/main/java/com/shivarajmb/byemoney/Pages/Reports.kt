@@ -21,7 +21,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.shivarajmb.byemoney.ViewModels.reportScreenViewModel
 import com.shivarajmb.byemoney.components.reportGroup
-import com.shivarajmb.byemoney.models.Recurrance
+import com.shivarajmb.byemoney.models.Recurrence
 import com.shivarajmb.byemoney.ui.theme.ByeMoneyTheme
 import com.shivarajmb.byemoney.ui.theme.TopAppBarBackground
 
@@ -33,9 +33,9 @@ fun Report(viewM: reportScreenViewModel = viewModel()) {
 
     val recurrences = listOf(
 
-        Recurrance.Weekly,
-        Recurrance.Monthly,
-        Recurrance.Yearly
+        Recurrence.Weekly,
+        Recurrence.Monthly,
+        Recurrence.Yearly
     )
 
     val state = viewM.uiState.collectAsState().value
@@ -43,7 +43,7 @@ fun Report(viewM: reportScreenViewModel = viewModel()) {
     Scaffold (
         topBar = {
             MediumTopAppBar(
-                title = { Text("Expenses") },
+                title = { Text("Report") },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = TopAppBarBackground
                 ),
@@ -72,14 +72,14 @@ fun Report(viewM: reportScreenViewModel = viewModel()) {
             )
         },
         content = { innerPadding ->
-            val pages=when(state.recurrance){
-                Recurrance.Weekly->53
-                Recurrance.Monthly->12
-                Recurrance.Yearly->1
+            val pages=when(state.recurrence){
+                Recurrence.Weekly->53
+                Recurrence.Monthly->12
+                Recurrence.Yearly->1
                 else->53
             }
             HorizontalPager(count = pages, reverseLayout = true) {page->
-                reportGroup( innerPadding, page,state.recurrance)
+                reportGroup( innerPadding, page,state.recurrence)
 
             }
         }
